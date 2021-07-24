@@ -29,7 +29,7 @@
 //#define MASTER_RIGHT //This is configured in the VIA config.h, allowing to designate which side by keymap
 
 /* key matrix size */
-// Rows are doubled-up
+// Rows are doubled-up. Added extra column for rotary encoder VIA mapping.
 #define MATRIX_ROWS 10
 #define MATRIX_COLS 7
 
@@ -48,14 +48,14 @@
 #define ENCODERS_PAD_B { F4 }
 #define ENCODERS_PAD_A_RIGHT { F4 }
 #define ENCODERS_PAD_B_RIGHT { F5 }
-#define ENCODER_RESOLUTION 2
+#define ENCODER_RESOLUTIONS { 4, 2 } //Left encoder seems to have double-output issue but right does not.
 
 #define TAP_CODE_DELAY 10
 
 /* communication between sides */
 #define SOFT_SERIAL_PIN D2
 
-
+/* Must be disabled for LTO */
 #define NO_ACTION_MACRO
 #define NO_ACTION_FUNCTION
 
@@ -64,7 +64,7 @@
 #define RGB_DI_PIN D3
 #define RGBLED_NUM 74
 #define RGBLED_SPLIT {37,37}
-//#define RGBLIGHT_ANIMATIONS
+//#define RGBLIGHT_ANIMATIONS // Very memory intensive
 #define RGBLIGHT_EFFECT_STATIC_GRADIENT
 #define RGBLIGHT_LIMIT_VAL 192 
 #define RGBLIGHT_LAYERS
@@ -87,7 +87,6 @@
 		L14,L12,L10,L40,L42,L44,L71,L76,L66,L65,L55,L35,L25,L05,L04,L24,L34,L54,L64,L63,L53,L33,L23,L03,L02,L22,L32,L52,L62,L51,L31,L21,L01,L00,L20,L30,L50,L19,L111,L113,L413,L411,L49,L712,L77,L67,L68,L58,L38,L28,L08,L09,L29,L39,L59,L69,L610,L510,L310,L210,L010,L011,L211,L311,L511,L611,L512,L312,L212,L012,L013,L213,L313,L513, \
 	}
 //RGB LED logical order map
-//Left encoder -> keys -> right encoders -> backlight
 #define RGBLIGHT_LED_MAP LED_LAYOUT( \
 	5,	6,	17,	18,	29,	30,			43,	44,	55,	56,	67,	68, \
 	4,		16,		28,					45,		57,		69, \
