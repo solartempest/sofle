@@ -9,19 +9,39 @@ More details about the keyboard on my blog: [Let me introduce you SofleKeyboard 
 The current (temporary) build guide and a build log is available here: [SofleKeyboard build log/guide](https://josef-adamcik.cz/electronics/soflekeyboard-build-log-and-build-guide.html)
 
 * Keyboard Maintainer: [Solartempeest)  
-* Hardware Supported: SofleKeyboard V2.1 RGB PCB, ProMicro  /Elite-C
+* Hardware Supported: SofleKeyboard V2.1 RGB PCB, ProMicro / Elite-C
 * Hardware Availability: [PCB & Case Data](https://keyhive.xyz/shop/sofle)
 
-Make example for this keyboard (after setting up your build environment):
+## Flashing
 
-    make sofle:default
+Flash using the correct command below:
 
-Flash the default keymap: 
+```sh
+# for pro micro-based builds
+qmk flash -kb sofle/rev2 -km keyhive_via -bl avrdude-split-left
+qmk flash -kb sofle/rev2 -km keyhive_via -bl avrdude-split-right
 
-    make sofle:default:avrdude
+# for Elite C or dfu bootloader builds
+qmk flash -kb sofle/rev2 -km keyhive_via -bl dfu-split-left
+qmk flash -kb sofle/rev2 -km keyhive_via -bl dfu-split-right
+```
 
+These commands can be mixed if, for example, you have an Elite C on the left and a pro micro on the right.
 Press reset button on he keyboard when asked.
 
 Disconnect the first half, connect the second one and repeat the process.
+
+
+# VIA keymap for Sofle
+
+Features:
+
+-   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
+-   Modes for Qwerty and Colemak support
+-   The OLED on master half shows selected mode and caps lock state and is rotated.
+-   Left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
+-   Via support
+-   RGB underglow support
+
 
 See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
