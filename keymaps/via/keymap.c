@@ -178,7 +178,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-////Determine why numlock is lit while sleeping and the other locks are not
 // RGB Layer Light Settings - Note that this will fix the key switch LED colour and brightness
 const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 95,255,90}); //Spring green		(Code is extra for static key lighting of layers)
 const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 30,255,120}); //Yellow-orange	(Code is extra for static key lighting of layers)
