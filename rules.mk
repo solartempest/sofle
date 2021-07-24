@@ -5,22 +5,13 @@ BOOTLOADER = atmel-dfu
 #   comment out to disable the options.
 
 SPLIT_KEYBOARD = yes	# Split keyboard
-BOOTMAGIC_ENABLE = no	# Virtual DIP switch configuration(+1000)
-MOUSEKEY_ENABLE = yes	# Mouse keys(+4700)
+BOOTMAGIC_ENABLE = no	# Virtual DIP switch configuration
+CONSOLE_ENABLE = no		# Console for debug
+MOUSEKEY_ENABLE = yes	# Mouse keys(+1482)
 EXTRAKEY_ENABLE = yes	# Audio control and System control(+450)
-CONSOLE_ENABLE = no		# Console for debug(+400)
-COMMAND_ENABLE = no     # Commands for debug and configuration
-RGBLIGHT_ENABLE = yes	# RGB LEDs
-SLEEP_LED_ENABLE  = no  # Breathing sleep LED during USB suspend
+RGBLIGHT_ENABLE = yes	# RGB lighting
 NKRO_ENABLE = yes		# USB Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
-AUDIO_ENABLE = no		# No audio
-KEY_LOCK_ENABLE = no	# Key lock functionality
 ENCODER_ENABLE = yes	# Encoders
-OLED_DRIVER_ENABLE = no # Must be disabled if OLEDs are not installed
+OLED_DRIVER_ENABLE = no # Must be disabled if OLEDs are not installed(+3608)
+TAP_DANCE_ENABLE = no	# Tap dance(+1060)
 LTO_ENABLE = yes		# Save space
-
-FAUXCLICKY_ENABLE = no
-MIDI_ENABLE = no
-BLUETOOTH_ENABLE = no
-TERMINAL_ENABLE = no
-LEADER_ENABLE = no
