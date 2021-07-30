@@ -20,7 +20,7 @@
 
 #include "quantum.h"
 
-
+// Extra keys are added for rotary encoder support in VIA
 #define LAYOUT( \
     LA1, LA2, LA3, LA4, LA5, LA6,           RA6, RA5, RA4, RA3, RA2, RA1, \
     LB1, LB2, LB3, LB4, LB5, LB6, LB7, RB7, RB6, RB5, RB4, RB3, RB2, RB1, \
