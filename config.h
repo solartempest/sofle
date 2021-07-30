@@ -59,6 +59,9 @@
 #define NO_ACTION_MACRO
 #define NO_ACTION_FUNCTION
 
+/* OLED settings */
+#define OLED_TIMEOUT 120000
+#define OLED_BRIGHTNESS 120
 
 //Add RGB underglow
 #define RGB_DI_PIN D3
@@ -66,7 +69,7 @@
 #define RGBLED_SPLIT {37,37}
 //#define RGBLIGHT_ANIMATIONS // Very memory intensive
 #define RGBLIGHT_EFFECT_STATIC_GRADIENT
-#define RGBLIGHT_LIMIT_VAL 192 
+#define RGBLIGHT_LIMIT_VAL 180 //Power draw may exceed 0.6A at max brightness with white colour.
 #define RGBLIGHT_LAYERS
 #define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
 #define RGBLIGHT_SLEEP
