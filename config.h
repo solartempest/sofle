@@ -60,8 +60,16 @@
 #define NO_ACTION_FUNCTION
 
 /* OLED settings */
-#define OLED_TIMEOUT 120000
-#define OLED_BRIGHTNESS 120
+#ifdef OLED_DRIVER_ENABLE
+	#define OLED_TIMEOUT 120000
+	#define OLED_BRIGHTNESS 120
+#endif
+
+//Combo settings
+#ifdef COMBO_ENABLE
+	#define COMBO_COUNT 2 //Number of tap combos used
+	#define COMBO_TERM 300 //Default combo time is 200ms
+#endif
 
 //Add RGB underglow
 #define RGB_DI_PIN D3
