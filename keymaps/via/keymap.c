@@ -48,6 +48,29 @@ uint16_t move_window_timer = 0;
 #endif
 
 
+#ifdef COMBO_ENABLE
+	enum combo_events {
+	  sbs_delword
+	};
+
+	const uint16_t PROGMEM delword_combo[] = {KC_LSFT, KC_BSPC, COMBO_END};
+
+	combo_t key_combos[COMBO_COUNT] = {
+	  [sbs_delword] = COMBO_ACTION(delword_combo)
+	};
+
+	void process_combo_event(uint16_t combo_index, bool pressed) {
+	  switch(combo_index) {
+		case sbs_delword:
+		  if (pressed) {
+			tap_code16(LCTL(KC_BSPC));
+		  }
+		  break;
+	  }
+	}
+#endif
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* QWERTY
  * ,-----------------------------------------.                    ,-----------------------------------------.
