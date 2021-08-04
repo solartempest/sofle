@@ -40,7 +40,6 @@
 #define MATRIX_COL_PINS_RIGHT { F6, F7, B1, B3, B2, B6, C7 } //C7 is unused on the MCU. It is needed for the encoder key matrix in via.
 #define DIODE_DIRECTION COL2ROW
 
-#define TAPPING_TERM 100
 #define DEBOUNCE 5
 
 /* encoder support */
@@ -68,7 +67,7 @@
 //Combo settings
 #ifdef COMBO_ENABLE
 	#define COMBO_COUNT 2 //Number of tap combos used
-	#define COMBO_TERM 300 //Default combo time is 200ms
+	#define COMBO_TERM 400 //Default combo time is 200ms. This is the time delay allowed between deleting each whole word with shift-backspace.
 #endif
 
 //Add RGB underglow
