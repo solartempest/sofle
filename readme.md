@@ -1,6 +1,6 @@
 # Sofle Keyboard
 
-![SofleKeyboard version 2.1 RGB Keyhive](https://i.imgur.com/KdNmNCu.jpg)
+![SofleKeyboard version 2.1 RGB Keyhive](https://i.imgur.com/G5HNa8W.jpg)
 
 Sofle is 6×4+5 keys column-staggered split keyboard. Based on Lily58, Corne and Helix keyboards.
 
@@ -12,7 +12,7 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 * Hardware Supported: SofleKeyboard V2.1 RGB PCB, ProMicro / Elite-C
 * Hardware Availability: [PCB & Case Data](https://keyhive.xyz/shop/sofle)
 
-# Features:
+# Custom Features:
 
 -   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
 -   The OLED on master half shows selected mode and caps lock state and is rotated.
