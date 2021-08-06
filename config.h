@@ -26,7 +26,10 @@
 #define MANUFACTURER    Keyhive
 #define PRODUCT         Solarius_Sofle //VIA version for this PCB is incorrect for the bottom row
 #define DESCRIPTION     Rose version of the Sofle
-//#define MASTER_RIGHT //This is configured in the VIA config.h, allowing to designate which side by keymap
+
+/* set which side is master */
+//#define EE_HANDS //Use this instead for EEPROM setting
+#define MASTER_LEFT
 
 /* key matrix size */
 // Rows are doubled-up. Added extra column for rotary encoder VIA mapping.
@@ -57,6 +60,8 @@
 /* Must be disabled for LTO */
 #define NO_ACTION_MACRO
 #define NO_ACTION_FUNCTION
+#define NO_ACTION_ONESHOT //Save 244 bytes
+
 
 /* OLED settings */
 #ifdef OLED_DRIVER_ENABLE
@@ -66,7 +71,7 @@
 
 //Combo settings
 #ifdef COMBO_ENABLE
-	#define COMBO_COUNT 2 //Number of tap combos used
+	#define COMBO_COUNT 1 //Number of tap combos used
 	#define COMBO_TERM 400 //Default combo time is 200ms. This is the time delay allowed between deleting each whole word with shift-backspace.
 #endif
 
@@ -82,7 +87,7 @@
 #define RGBLIGHT_SLEEP
 
 
-//RGB LED Conversion macro from physical array to electric array
+//RGB LED Conversion macro from physical array to electric array (+146 to firmware size)
 //First section is the LED matrix, second section is the electrical wiring order, and the third section is the desired mapping
 #define LED_LAYOUT( \
 	L00,	L01,	L02,	L03,	L04,	L05,					L08,	L09,	L010,	L011,	L012,	L013, \
