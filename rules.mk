@@ -10,7 +10,7 @@ CONSOLE_ENABLE = no		# Console for debug
 EXTRAKEY_ENABLE = yes	# Audio control and System control(+450)
 RGBLIGHT_ENABLE = yes	# RGB lighting
 ENCODER_ENABLE = yes	# Encoders
-COMBO_ENABLE = yes      # Tap combo chording
+COMBO_ENABLE = yes      # Tap combo chording (+952)
 LTO_ENABLE = yes		# Save space
 
 OLED_DRIVER_ENABLE = no # Must be disabled if OLEDs are not installed(+3608)
