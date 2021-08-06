@@ -37,10 +37,10 @@ Disconnect the first half, connect the second one and repeat the process.
 -   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
 -   The OLED on master half shows selected mode and caps lock state and is rotated.
 -   Left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
--	  Adds combo functionality.
+-   Adds combo functionality.
 -   RGB underglow support and remapped to physical locations
--	  Adds custom layer lighting with custom gradients for each.
--	  Adds white lock key indicators on the top row/underglow.
+-   Adds custom layer lighting with custom gradients for each.
+-   Adds white lock key indicators on the top row/underglow.
 -   Via support
 -   This fixes the left bottom row offset issue in VIA. You will need to import sofle.json in VIA.
 -   Allows for remapping of rotary encoder functions in VIA.
