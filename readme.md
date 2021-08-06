@@ -8,9 +8,25 @@ More details about the keyboard on Josef's blog: [Let me introduce you SofleKeyb
 
 Build guide and log is available here: [SofleKeyboard build log/guide](https://josef-adamcik.cz/electronics/soflekeyboard-build-log-and-build-guide.html)
 
-* Keyboard Maintainer: [Solartempeest)  
+* Keyboard Maintainer: [Solartempest)  
 * Hardware Supported: SofleKeyboard V2.1 RGB PCB, ProMicro / Elite-C
 * Hardware Availability: [PCB & Case Data](https://keyhive.xyz/shop/sofle)
+
+# Features:
+
+-   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
+-   The OLED on master half shows selected mode and caps lock state and is rotated.
+-   Left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
+-   Adds combo functionality.
+-   RGB underglow support and remapped to physical locations
+-   Adds custom layer lighting with custom gradients for each.
+-   Adds white lock key indicators on the top row/underglow.
+-   Via support
+-   This fixes the left bottom row offset issue in VIA. You will need to import sofle.json in VIA.
+-   Allows for remapping of rotary encoder functions in VIA.
+-   Custom macro key in VIA for Super Alt Tab, which is fully compatible with rotary encoders.
+-   Custom macro key in VIA for moving windows to other monitors in Windows, which is fully compatible with rotary encoders.
+
 
 ## Flashing
 
@@ -30,22 +46,6 @@ These commands can be mixed if, for example, you have an Elite C on the left and
 Press reset button on he keyboard when asked.
 
 Disconnect the first half, connect the second one and repeat the process.
-
-
-# Features:
-
--   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
--   The OLED on master half shows selected mode and caps lock state and is rotated.
--   Left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
--   Adds combo functionality.
--   RGB underglow support and remapped to physical locations
--   Adds custom layer lighting with custom gradients for each.
--   Adds white lock key indicators on the top row/underglow.
--   Via support
--   This fixes the left bottom row offset issue in VIA. You will need to import sofle.json in VIA.
--   Allows for remapping of rotary encoder functions in VIA.
--   Custom macro key in VIA for Super Alt Tab, which is fully compatible with rotary encoders.
--   Custom macro key in VIA for moving windows to other monitors in Windows, which is fully compatible with rotary encoders.
 
 
 See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
