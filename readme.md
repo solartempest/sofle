@@ -4,28 +4,29 @@
 
 Sofle is 6×4+5 keys column-staggered split keyboard. Based on Lily58, Corne and Helix keyboards.
 
-More details about the keyboard on Josef's blog: [Let me introduce you SofleKeyboard - a split keyboard based on Lily58 and Crkbd](https://josef-adamcik.cz/electronics/let-me-introduce-you-sofle-keyboard-split-keyboard-based-on-lily58.html)
+More details about the keyboard on Josef's blog: [Sofle Keyboard - a split keyboard based on Lily58 and Crkbd](https://josef-adamcik.cz/electronics/let-me-introduce-you-sofle-keyboard-split-keyboard-based-on-lily58.html)
 
 Build guide and log is available here: [SofleKeyboard build log/guide](https://josef-adamcik.cz/electronics/soflekeyboard-build-log-and-build-guide.html)
 
-* Keyboard Maintainer: [Solartempest)  
+* Keyboard Maintainer: [Solartempest]
 * Hardware Supported: SofleKeyboard V2.1 RGB PCB, ProMicro / Elite-C
 * Hardware Availability: [PCB & Case Data](https://keyhive.xyz/shop/sofle)
 
 # Custom Features:
 
--   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
--   The OLED on master half shows selected mode and caps lock state and is rotated.
 -   Left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
--   Adds combo functionality.
+-   Adds key combo functionality.
 -   RGB underglow support and remapped to physical locations
 -   Adds custom layer lighting with custom gradients for each.
 -   Adds white lock key indicators on the top row/underglow.
 -   Via support
 -   This fixes the left bottom row offset issue in VIA. You will need to import sofle.json in VIA.
--   Allows for remapping of rotary encoder functions in VIA.
+-   Allows for remapping of per-layer rotary encoder functions in VIA.
 -   Custom macro key in VIA for Super Alt Tab, which is fully compatible with rotary encoders.
 -   Custom macro key in VIA for moving windows to other monitors in Windows, which is fully compatible with rotary encoders.
+-   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
+-   OLED on master half shows selected mode and caps lock state and is rotated.
+-   Includes stock OLED code as well as Luna code (not yet tested).
 
 
 ## Flashing
