@@ -18,8 +18,5 @@
 
 #pragma once
 
-//#define EE_HANDS //Use this instead for EEPROM setting
-#define MASTER_LEFT
-
-// Set 10 layers for VIA
+// Set number of layers for VIA, each is 30 bytes
 #define DYNAMIC_KEYMAP_LAYER_COUNT 4
