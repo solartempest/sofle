@@ -14,19 +14,19 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 
 # Custom Features:
 
--   Left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
+-   Remappable left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
 -   Adds key combo functionality.
--   RGB underglow support and remapped to physical locations
+-   RGB underglow support and remapped to physical locations (nicer gradient and effects).
 -   Adds custom layer lighting with custom gradients for each.
--   Adds white lock key indicators on the top row/underglow.
--   Via support
--   This fixes the left bottom row offset issue in VIA. You will need to import sofle.json in VIA.
+-   Adds white caps lock, scroll lock, and num lock key indicators on the top row/underglow.
+-   VIA support included by default.
+-   This fixes the Keyhive left bottom row offset issue in VIA. You will need to import sofle.json in VIA.
 -   Allows for remapping of per-layer rotary encoder functions in VIA.
 -   Custom macro key in VIA for Super Alt Tab, which is fully compatible with rotary encoders.
 -   Custom macro key in VIA for moving windows to other monitors in Windows, which is fully compatible with rotary encoders.
--   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
+-   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift).
+-   Includes stock OLED code as well as Luna code (refer to rules.mk and keymap.c).
 -   OLED on master half shows selected mode and caps lock state and is rotated.
--   Includes stock OLED code as well as Luna code (not yet tested).
 
 
 ## Flashing
