@@ -24,6 +24,11 @@
       "name": "Move Window Left",
       "title": "Move Window Left in Windows",
       "shortName": "MWL"
+    },
+    {
+      "name": "Shift-BSPC",
+      "title": "Shift-Backspace to Delete Whole Words",
+      "shortName": "SBS"
     }
   ],
   "layouts": 
