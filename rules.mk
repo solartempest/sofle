@@ -15,5 +15,6 @@ NKRO_ENABLE = no		# Has 6KRO+ already. NKRO does not work
 LTO_ENABLE = yes		# Save space
 
 OLED_DRIVER_ENABLE = no # Must be disabled if OLEDs are not installed (+3608)
-WPM_ENABLE = yes		# For OLED WPM counter, required for Luna (+1298)
-COMBO_ENABLE = yes		# Tap combo chording, disable to save space for Luna (+952)
+WPM_ENABLE = yes		# For OLED WPM counter, required for keyboard pets (+1298)
+COMBO_ENABLE = no		# Tap combo chording, may run into space issue if also using keyboard pets (+952)
+						# Via_enable in keymap (+2300)
