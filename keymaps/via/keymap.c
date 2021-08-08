@@ -20,8 +20,8 @@
 #include <stdio.h> //This is required for OLED sprintf.
 #include "encoder.c"
 #ifdef OLED_DRIVER_ENABLE
-	#include "oled.c" //Stock OLED code
-	//#include "luna.c" //Untested OLED code for Luna.  Please disable some other features to reduce firmware size.
+	//#include "oled.c" //Stock OLED code
+	#include "luna.c" //Untested OLED code for Luna.  Please disable some other features such as combos to reduce firmware size.
 #endif
 
 #ifdef RGBLIGHT_ENABLE
@@ -31,32 +31,34 @@
 
 bool is_alt_tab_active = false; // Super Alt Tab Code
 uint16_t alt_tab_timer = 0;
-bool is_window_move_active = false; // Move Window Code
-uint16_t move_window_timer = 0;
+bool lshift_held = false;	// LShift Backspace Delete whole Word Code
+bool rshift_held = false;	// RShift Backspace Delete whole Word Code
+static uint16_t held_shift = 0;
 #ifdef VIA_ENABLE
 	enum custom_keycodes { //Use USER 00 instead of SAFE_RANGE for Via. VIA json must include the custom keycode.
 	  ATABF = USER00, //Alt tab forwards
 	  ATABR, //Alt tab reverse
 	  NMR, //Move window to monitor on right
-	  NML //Move window to monitor on left
+	  NML, //Move window to monitor on left
+	  SBS //Shift backspace to delete whole word (Swap KC_BPSC with this)
 	};
 #else
 	enum custom_keycodes { //Use USER 00 instead of SAFE_RANGE for Via. VIA json must include the custom keycode.
 	  ATABF = SAFE_RANGE, //Alt tab forwards
 	  ATABR, //Alt tab reverse
 	  NMR, //Move window to monitor on right
-	  NML //Move window to monitor on left
+	  NML, //Move window to monitor on left
+	  SBS //Shift backspace to delete whole word (Swap KC_BPSC with this)
 	};
 #endif
 
 
-#ifdef COMBO_ENABLE //(+42 firmware size)
+#ifdef COMBO_ENABLE //(+42 firmware size for this combo). SBS takes care of this combo, so it can be replaced with others as required.
 	enum combo_events {
 	  sbs_delword
 	};
 
 	const uint16_t PROGMEM delword_combo[] = {KC_LSFT, KC_BSPC, COMBO_END}; //Shift-Backspace to delete whole words
-
 	combo_t key_combos[COMBO_COUNT] = {
 	  [sbs_delword] = COMBO_ACTION(delword_combo)
 	};
@@ -90,30 +92,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [0] = LAYOUT(
   KC_GRV,	KC_1,	KC_2,	KC_3,	KC_4,	KC_5,						KC_6,	KC_7,	KC_8,	KC_9,	KC_0,		KC_MINS,
-  KC_ESC,	KC_Q,	KC_W,	KC_E,	KC_R,	KC_T,	KC__VOLUP,	KC_PGUP,KC_Y,	KC_U,	KC_I,	KC_O,	KC_P,		KC_BSPC,
+  KC_ESC,	KC_Q,	KC_W,	KC_E,	KC_R,	KC_T,	KC__VOLUP,	KC_PGUP,KC_Y,	KC_U,	KC_I,	KC_O,	KC_P,		SBS,
   KC_TAB,	KC_A,	KC_S,	KC_D,	KC_F,	KC_G,	KC_MUTE,	KC_NO,	KC_H,	KC_J,	KC_K,	KC_L,	KC_SCLN,	KC_QUOT,
   KC_LSFT,	KC_Z,	KC_X,	KC_C,	KC_V,	KC_B,	KC__VOLDOWN,KC_PGDN,KC_N,	KC_M,	KC_COMM,KC_DOT,	KC_SLSH,	KC_RSFT,
 					KC_LGUI,KC_LALT,KC_LCTRL,MO(2),	KC_ENT,		KC_SPC,	MO(3),	KC_RCTRL,KC_RALT,KC_RGUI
 ),
 [1] = LAYOUT(
-  KC_PSCR,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,							KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,
-  KC_TRNS,	KC_T,		KC_Q,		KC_W,		KC_E,		KC_R,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_BSPC,
-  KC_TRNS,	KC_G,		KC_A,		KC_S,		KC_D,		KC_F,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,
-  KC_TRNS,	KC_B,		KC_Z,		KC_X,		KC_C,		KC_V,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,
-						KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_PAUS,	KC_SPACE,	KC_TRNS,	MO(3),		KC_TRNS,	KC_TRNS,	KC_TRNS
+  KC_PSCR,	KC_5,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,							KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_F11,		KC_F4,
+  KC_T,		KC_ESC,		KC_Q,		KC_W,		KC_E,		KC_R,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_F12,
+  KC_G,		KC_TAB,		KC_A,		KC_S,		KC_D,		KC_F,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,
+  KC_LSFT,	KC_LSFT,	KC_Z,		KC_X,		KC_C,		KC_V,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_RALT,
+						KC_ENT,		KC_B,		KC_TRNS,	KC_PAUS,	KC_SPACE,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS
 ),
 [2] = LAYOUT(
   KC_TRNS,	KC_F1,	KC_F2,	KC_F3,	KC_F4,	KC_F5,							KC_F6,	KC_F7,	KC_F8,	KC_F9,	KC_F10,		KC_F11,
-  KC_GRV,	KC_1,	KC_2,	KC_3,	KC_4,	KC_5,	KC_TRNS,		KC_TRNS,KC_6,	KC_7,	KC_8,	KC_9,	KC_0,		KC_F12,
-  KC_TRNS,	KC_EXLM,KC_AT,	KC_HASH,KC_DLR,	KC_PERC,KC_TRNS,		KC_TRNS,KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,	KC_PIPE,
-  KC_TRNS,	KC_EQL,	KC_MINS,KC_PLUS,KC_LCBR,KC_LCBR,KC_TRNS,		KC_TRNS,KC_LBRC,KC_RBRC,KC_DOT,	KC_COLN,KC_BSLS,	KC_TRNS,
+  KC_GRV,	KC_1,	KC_2,	KC_3,	KC_4,	KC_5,	KC_RGHT,		KC_TRNS,KC_6,	KC_7,	KC_8,	KC_9,	KC_0,		KC_F12,
+  KC_WREF,	KC_EXLM,KC_AT,	KC_HASH,KC_DLR,	KC_PERC,KC_TRNS,		KC_TRNS,KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,	KC_PIPE,
+  KC_TRNS,	KC_EQL,	KC_MINS,KC_PLUS,KC_LCBR,KC_LCBR,KC_LEFT,		KC_TRNS,KC_LBRC,KC_RBRC,KC_DOT,	KC_COLN,KC_BSLS,	KC_TRNS,
 					KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,		KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS
 ),
 [3] = LAYOUT(
-  KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,							KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,
-  KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_HOME,	KC_UP,		KC_END,		KC_INS,		KC_DEL,
-  KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_LEFT,	KC_DOWN,	KC_RIGHT,	KC_TRNS,	KC_TRNS,
-  KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_CAPS,	KC_PGUP,	KC_TRNS,	KC_PGDN,	KC_TRNS,	KC_TRNS,
+  NML,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,							KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	NMR,
+  KC_NLCK,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	ATABF,		NMR,		KC_WFWD,	KC_HOME,	KC_UP,		KC_END,		KC_INS,		KC_DEL,
+  KC_SLCK,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_WBAK,	KC_LEFT,	KC_DOWN,	KC_RIGHT,	KC_TRNS,	KC_TRNS,
+  KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	ATABR,		NML,		KC_CAPS,	KC_PGUP,	KC_TRNS,	KC_PGDN,	KC_TRNS,	KC_TRNS,
 						KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS
 )
 };
@@ -129,79 +131,117 @@ void matrix_scan_user(void) {
       is_alt_tab_active = false;
     }
   }
-  if (is_window_move_active) {
-    if (timer_elapsed(move_window_timer) > 1000) {
-      unregister_code(KC_LSFT);
-      unregister_code(KC_LWIN);
-      is_window_move_active = false;
-    }
-  }
 }
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-	switch (keycode) { //For super alt tab keycodes
-	case ATABF:	//Alt tab forwards
-	  if (record->event.pressed) {
-		if (!is_alt_tab_active) {
-		  is_alt_tab_active = true;
-		  register_code(KC_LALT);
+	switch (keycode) { //For keycode overrides
+		case ATABF:	//Alt tab forwards
+		  if (record->event.pressed) {
+			if (!is_alt_tab_active) {
+			  is_alt_tab_active = true;
+			  register_code(KC_LALT);
+			}
+			alt_tab_timer = timer_read();
+			register_code(KC_TAB);
+		  } else {
+			unregister_code(KC_TAB);
+		  }
+		  return true;
+		case ATABR:	//Alt tab reverse
+		  if (record->event.pressed) {
+			if (!is_alt_tab_active) {
+			  is_alt_tab_active = true;
+			  register_code(KC_LALT);
+			}
+			alt_tab_timer = timer_read();
+			register_code(KC_LSHIFT);
+			register_code(KC_TAB);
+		  } else {
+			unregister_code(KC_LSHIFT);
+			unregister_code(KC_TAB);
+		  }
+		  return true;
+		  
+		case NMR:	//Move window to next monitor on right
+		  if (record->event.pressed) {
+			register_code(KC_LSFT);
+			register_code(KC_LWIN);
+			register_code(KC_RIGHT);
+			unregister_code(KC_RIGHT);
+			unregister_code(KC_LWIN);
+			unregister_code(KC_LSFT);
+		  }
+		  return true;
+		case NML:	//Move window to next monitor on left
+		  if (record->event.pressed) {
+			register_code(KC_LSFT);
+			register_code(KC_LWIN);
+			register_code(KC_LEFT);
+			unregister_code(KC_LEFT);
+			unregister_code(KC_LWIN);
+			unregister_code(KC_LSFT);
+		  }
+		  return true;
+
+		case KC_RSFT:	//Shift Backspace to Delete Whole Word. Inspired by Hellsingcoder.
+			rshift_held = record->event.pressed;
+			held_shift = keycode;
+			return true;
+		case KC_LSFT:
+			lshift_held = record->event.pressed;
+			held_shift = keycode;
+			return true;
+		case SBS:
+			if (record->event.pressed) {
+				if (lshift_held) {
+					unregister_code(held_shift);
+					register_code(KC_LCTL);
+					register_code(KC_BSPC);
+				} else if (rshift_held) {
+					unregister_code(held_shift);
+					register_code(KC_LCTL);
+					register_code(KC_DEL);
+				} else {
+					register_code(KC_BSPC);
+				}
+			} else {
+				unregister_code(KC_BSPC);
+				unregister_code(KC_DEL);
+				unregister_code(KC_LCTL);
+				if (lshift_held || rshift_held) {
+					register_code(held_shift);
+				}
+			}
+			return false;
+			
+		// KEYBOARD PET STATUS
+		#ifdef OLED_DRIVER_ENABLE
+			case KC_LCTL:
+			case KC_RCTL:
+				if (record->event.pressed) {
+					isSneaking = true;
+				} else {
+					isSneaking = false;
+				}
+				return false;
+			case KC_SPC:
+				if (record->event.pressed) {
+					isJumping = true;
+					showedJump = false;
+				} else {
+					isJumping = false;
+				}
+				return true;
+		#endif
 		}
-		alt_tab_timer = timer_read();
-		register_code(KC_TAB);
-	  } else {
-		unregister_code(KC_TAB);
-	  }
-	  break;
-	case ATABR:	//Alt tab reverse
-	  if (record->event.pressed) {
-		if (!is_alt_tab_active) {
-		  is_alt_tab_active = true;
-		  register_code(KC_LALT);
-		}
-		alt_tab_timer = timer_read();
-		register_code(KC_LSHIFT);
-		register_code(KC_TAB);
-	  } else {
-		unregister_code(KC_LSHIFT);
-		unregister_code(KC_TAB);
-	  }
-	  break;
-	  	case NMR:	//Move window to next monitor on right
-	  if (record->event.pressed) {
-		if (!is_window_move_active) {
-		  is_window_move_active = true;
-		  register_code(KC_LSFT);
-		  register_code(KC_LWIN);
-		}
-		move_window_timer = timer_read();
-		register_code(KC_RIGHT);
-	  } else {
-		unregister_code(KC_RIGHT);
-	  }
-	  break;
-	case NML:	//Move window to next monitor on left
-	  if (record->event.pressed) {
-		if (!is_window_move_active) {
-		  is_window_move_active = true;
-		  register_code(KC_LSFT);
-		  register_code(KC_LWIN);
-		}
-		move_window_timer = timer_read();
-		register_code(KC_LSHIFT);
-		register_code(KC_LEFT);
-	  } else {
-		unregister_code(KC_LEFT);
-	  }
-	  break;
-	}
 	return true;
 }
 
 
 // RGB Layer Light Settings - Note that this will fix the key switch LED colour and brightness
 const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 95,255,90}); //Spring green		(Code is extra for static key lighting of layers)
-const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 21,255,120}); //Yellow-orange	(Code is extra for static key lighting of layers)
+const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 5,255,120}); //Yellow-orange	(Code is extra for static key lighting of layers)
 const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 128,255,100}); //Cyan			(Code is extra for static key lighting of layers)
 const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 215,255,120}); //Magenta		(Code is extra for static key lighting of layers)
 const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS({4, 3, 43,100,160}); //White-left caps lock indication (No dedicated LED)
