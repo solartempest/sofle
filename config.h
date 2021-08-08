@@ -19,7 +19,7 @@
 #pragma once
 #include "config_common.h"
 
-/* USB Device descriptor parameter */
+// USB Device descriptor parameter
 #define VENDOR_ID       0xFC32
 #define PRODUCT_ID      0x1287 //Original is 0x0287 but do not want to load default VIA keymap
 #define DEVICE_VER      0x0002
@@ -27,11 +27,11 @@
 #define PRODUCT         Solarius_Sofle //VIA version for this PCB is incorrect for the bottom row
 #define DESCRIPTION     Rose version of the Sofle
 
-/* set which side is master */
+// Set which side is master
 //#define EE_HANDS //Use this instead for EEPROM setting
 #define MASTER_LEFT
 
-/* key matrix size */
+// Key matrix size
 // Rows are doubled-up. Added extra column for rotary encoder VIA mapping.
 #define MATRIX_ROWS 10
 #define MATRIX_COLS 7
@@ -45,7 +45,7 @@
 
 #define DEBOUNCE 5
 
-/* encoder support */
+// Encoder support
 #define ENCODERS_PAD_A { F5 }
 #define ENCODERS_PAD_B { F4 }
 #define ENCODERS_PAD_A_RIGHT { F4 }
@@ -54,34 +54,33 @@
 
 #define TAP_CODE_DELAY 10
 
-/* communication between sides */
+// Communication between sides
 #define SOFT_SERIAL_PIN D2
 
-/* Must be disabled for LTO */
+// Must be disabled for LTO
 #define NO_ACTION_MACRO
 #define NO_ACTION_FUNCTION
 #define NO_ACTION_ONESHOT //Save 244 bytes
 
-
-/* OLED settings */
+// OLED settings
 #ifdef OLED_DRIVER_ENABLE
 	#define OLED_TIMEOUT 120000
 	#define OLED_BRIGHTNESS 120
 #endif
 
-//Combo settings
+// Combo settings
 #ifdef COMBO_ENABLE
 	#define COMBO_COUNT 1 //Number of tap combos used
 	#define COMBO_TERM 400 //Default combo time is 200ms. This is the time delay allowed between deleting each whole word with shift-backspace.
 #endif
 
-//Add RGB underglow
+// Add RGB underglow
 #define RGB_DI_PIN D3
 #define RGBLED_NUM 74
 #define RGBLED_SPLIT {37,37}
 //#define RGBLIGHT_ANIMATIONS // Very memory intensive
 #define RGBLIGHT_EFFECT_STATIC_GRADIENT
-#define RGBLIGHT_LIMIT_VAL 180 //Power draw may exceed 0.6A at max brightness with white colour.
+#define RGBLIGHT_LIMIT_VAL 160 //Power draw may exceed 0.6A at max brightness with white colour.
 #define RGBLIGHT_LAYERS
 #define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
 #define RGBLIGHT_SLEEP
