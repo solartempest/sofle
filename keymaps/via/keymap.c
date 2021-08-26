@@ -21,7 +21,11 @@
 #include "encoder.c"
 #ifdef OLED_DRIVER_ENABLE
 	//#include "oled.c" //Stock OLED code
-	#include "luna.c" //Untested OLED code for Luna.  Please disable some other features such as combos to reduce firmware size.
+	//#define WPM_ESTIMATED_WORD_SIZE 5
+	//#define WPM_SAMPLE_SECONDS 5
+	//#include "wpm_dev.c" //Use develop branch WPM counter, which is smaller and more precise than the standard one: <https://github.com/qmk/qmk_firmware/pull/13902> . Not required and may be implemented later.
+	#include "luna.c" //OLED code for Luna. Note that this is quite large and disabling other features may be necessary.
+	//#include "snakey.c" //OLED code for Snakey. Note that this is quite large and disabling other features may be necessary.
 #endif
 
 #ifdef RGBLIGHT_ENABLE
@@ -53,7 +57,7 @@ static uint16_t held_shift = 0;
 #endif
 
 
-#ifdef COMBO_ENABLE //(+42 firmware size for this combo). SBS takes care of this combo, so it can be replaced with others as required.
+#ifdef COMBO_ENABLE //(+42 firmware size for this combo). SBS takes care of this combo, so it is an example only and can be replaced with others as required.
 	enum combo_events {
 	  sbs_delword
 	};
@@ -96,7 +100,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,	KC_A,	KC_S,	KC_D,	KC_F,	KC_G,	KC_MUTE,	KC_NO,	KC_H,	KC_J,	KC_K,	KC_L,	KC_SCLN,	KC_QUOT,
   KC_LSFT,	KC_Z,	KC_X,	KC_C,	KC_V,	KC_B,	KC__VOLDOWN,KC_PGDN,KC_N,	KC_M,	KC_COMM,KC_DOT,	KC_SLSH,	KC_RSFT,
 					KC_LGUI,KC_LALT,KC_LCTRL,MO(2),	KC_ENT,		KC_SPC,	MO(3),	KC_RCTRL,KC_RALT,KC_RGUI
-),
+)/* //Skip these layouts to save space when using VIA
+,
 [1] = LAYOUT(
   KC_PSCR,	KC_5,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,							KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_F11,		KC_F4,
   KC_T,		KC_ESC,		KC_Q,		KC_W,		KC_E,		KC_R,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_F12,
@@ -117,7 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_SLCK,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_WBAK,	KC_LEFT,	KC_DOWN,	KC_RIGHT,	KC_TRNS,	KC_TRNS,
   KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	ATABR,		NML,		KC_CAPS,	KC_PGUP,	KC_TRNS,	KC_PGDN,	KC_TRNS,	KC_TRNS,
 						KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS
-)
+)*/
 };
 
 
@@ -187,10 +192,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		case KC_RSFT:	//Shift Backspace to Delete Whole Word. Inspired by Hellsingcoder.
 			rshift_held = record->event.pressed;
 			held_shift = keycode;
+			// KEYBOARD PET STATUS
+			#ifdef OLED_DRIVER_ENABLE
+				if (record->event.pressed) {
+					isBarking = true;
+				} else {
+					isBarking = false;
+				}
+			#endif
 			return true;
 		case KC_LSFT:
 			lshift_held = record->event.pressed;
 			held_shift = keycode;
+			// KEYBOARD PET STATUS
+			#ifdef OLED_DRIVER_ENABLE
+				if (record->event.pressed) {
+					isBarking = true;
+				} else {
+					isBarking = false;
+				}
+			#endif
 			return true;
 		case SBS:
 			if (record->event.pressed) {
@@ -224,7 +245,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 				} else {
 					isSneaking = false;
 				}
-				return false;
+				return true;
 			case KC_SPC:
 				if (record->event.pressed) {
 					isJumping = true;
@@ -239,16 +260,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
+#ifdef OLED_DRIVER_ENABLE
+	void suspend_power_down_user(void) { //turn off OLEDs when computer is sleeping
+		oled_off();
+	}
+#endif
+
+
 // RGB Layer Light Settings - Note that this will fix the key switch LED colour and brightness
-const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 95,255,90}); //Spring green		(Code is extra for static key lighting of layers)
-const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 5,255,120}); //Yellow-orange	(Code is extra for static key lighting of layers)
-const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 128,255,100}); //Cyan			(Code is extra for static key lighting of layers)
-const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 215,255,120}); //Magenta		(Code is extra for static key lighting of layers)
-const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS({4, 3, 43,100,160}); //White-left caps lock indication (No dedicated LED)
-const rgblight_segment_t PROGMEM my_numlock_layer[] = RGBLIGHT_LAYER_SEGMENTS({28, 3, 43,100,150}); //White-right num lock indication (No dedicated LED). Since this indicator is inverted, it must be on the master side of the keyboard to shut off properly when the computer is sleeping.
-const rgblight_segment_t PROGMEM my_scrollock_layer[] = RGBLIGHT_LAYER_SEGMENTS({55, 3, 43,100,160}); //White-middle-right scroll lock indication (No dedicated LED)
-
-
+const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 95,255,90}); //Spring green		(Change range for multiple keys with same colour)
+const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 252,255,125}); //Red-orange		(Change range for multiple keys with same colour)
+const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 128,255,100}); //Cyan			(Change range for multiple keys with same colour)
+const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 215,255,120}); //Magenta		(Change range for multiple keys with same colour)
+const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS({4, 3, 43,100,170}); //White-left caps lock indication (No dedicated LED)
+const rgblight_segment_t PROGMEM my_numlock_layer[] = RGBLIGHT_LAYER_SEGMENTS({28, 3, 43,100,170}); //White-right num lock indication (No dedicated LED). Since this indicator is inverted, it must be on the master side of the keyboard to shut off properly when the computer is sleeping.
+const rgblight_segment_t PROGMEM my_scrollock_layer[] = RGBLIGHT_LAYER_SEGMENTS({55, 3, 43,100,170}); //White-middle-right scroll lock indication (No dedicated LED)
 const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST( //Lighting layers
     my_layer0_layer,
     my_layer1_layer,
@@ -263,9 +289,7 @@ const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST( 
 void keyboard_post_init_user(void)
 {
     rgblight_layers = my_rgb_layers;// Enable the LED layers
-	rgblight_enable();
 	rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT+8); //Set to static gradient 9
-	rgblight_sethsv_noeeprom(50, 255, 80); //Set default brightness when connected
 	layer_move(0); //start on layer 0 to get the lighting activated
 }
 
@@ -279,24 +303,16 @@ layer_state_t layer_state_set_user(layer_state_t state)
 	
 	switch(biton32(state)){ // Change all other LEDs based on layer state as well
 		case 0:
-			rgblight_enable_noeeprom();
 			rgblight_sethsv_noeeprom(50,255,80);
 			break;
 		case 1:
-			rgblight_enable_noeeprom();
-			rgblight_sethsv_noeeprom(8,255,80);
+			rgblight_sethsv_noeeprom(252,255,80);
 			break;
 		case 2:
-			rgblight_enable_noeeprom();	
 			rgblight_sethsv_noeeprom(118,255,80);
 			break;
 		case 3:
-			rgblight_enable_noeeprom();
 			rgblight_sethsv_noeeprom(218,255,80);
-			break;
-		default:
-			rgblight_enable_noeeprom();
-			rgblight_sethsv_noeeprom(64,255,80);
 	  }
     return state;
 }
