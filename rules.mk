@@ -14,7 +14,7 @@ MOUSEKEY_ENABLE = no	# Mouse keys (+1482)
 NKRO_ENABLE = no		# Has 6KRO+ already. NKRO does not work
 LTO_ENABLE = yes		# Save space
 
-OLED_DRIVER_ENABLE = no # Must be disabled if OLEDs are not installed (+3608)
-WPM_ENABLE = yes		# For OLED WPM counter, required for keyboard pets (+1298)
+OLED_DRIVER_ENABLE = yes# Must be disabled if OLEDs are not installed (+3608)
+WPM_ENABLE = yes		# WPM counter for keyboard pets (+1298). There is some code taken from develop that is smaller, but in progress only.
 COMBO_ENABLE = no		# Tap combo chording, may run into space issue if also using keyboard pets (+952)
-						# Via_enable in keymap (+2300)
+						# Via_enable in keymap (+2300). VIA is required as non-via layouts are removed to save space.
