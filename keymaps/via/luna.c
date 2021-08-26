@@ -1,7 +1,7 @@
 /* Copyright
  *   2021 solartempest
- *   2021 QMK
  *   2021 Luna code adapted from HellSingCoder and Jackasaur
+ *   2021 QMK
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * but WITHOUT ANY WARRANTY; without even the implied warranty o
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
@@ -37,7 +37,7 @@
 	uint8_t current_frame = 0;
 	 
 	/* status variables */
-	int current_wpm = 0;
+	int current_wpm_read = 0;
 	led_t led_usb_state;
 	 
 	bool isSneaking = false;
@@ -196,10 +196,10 @@
 			} else if(isSneaking) {
 				oled_write_raw_P(sneak[abs(1 - current_frame)], ANIM_SIZE);
 	 
-			} else if(current_wpm <= MIN_WALK_SPEED) {
+			} else if(current_wpm_read <= MIN_WALK_SPEED) {
 				oled_write_raw_P(sit[abs(1 - current_frame)], ANIM_SIZE);
 	 
-			} else if(current_wpm <= MIN_RUN_SPEED) {
+			} else if(current_wpm_read <= MIN_RUN_SPEED) {
 				oled_write_raw_P(walk[abs(1 - current_frame)], ANIM_SIZE);
 	 
 			} else {
@@ -214,7 +214,7 @@
 		}
 	 
 		/* this fixes the screen on and off bug */
-		if (current_wpm > 0) {
+		if (current_wpm_read > 0) {
 			oled_on();
 			anim_sleep = timer_read32();
 		} else if(timer_elapsed32(anim_sleep) > OLED_TIMEOUT) {
@@ -226,43 +226,43 @@
 	/* KEYBOARD PET END */
 
 	static void print_logo_narrow(void) {
-		/* wpm counter */
-		char wpm_str[8];
-		oled_set_cursor(0,8);
-		sprintf(wpm_str, " %03d", current_wpm);
-		oled_write(wpm_str, false);
+		oled_set_cursor(0,3);
+		oled_write("SOLAR", false);
+		oled_set_cursor(0,4);
+		oled_write("TMPST", false);
 	 
-		oled_set_cursor(0,9);
+	 	/* wpm counter */
+		char wpm_str[8];
+		oled_set_cursor(0,10);
+		sprintf(wpm_str, " %03d", current_wpm_read);
+		oled_write(wpm_str, false);
+		oled_set_cursor(0,11);
 		oled_write(" wpm", false);
 	}
 	 
 	static void print_status_narrow(void) {
-		oled_set_cursor(0,3);
-	 
-		switch (get_highest_layer(default_layer_state)) {
+		/*switch (get_highest_layer(default_layer_state)) { //Not required as only one default layer is used
 			case 0:
-				oled_write("QWRTY", false);
+				oled_write("SOLAR", false);
 				break;
 			case 1:
 				oled_write("GAME", false);
 				break;
 			default:
 				oled_write("UNDEF", false);
-		}
-	 
-		oled_set_cursor(0,5);
+		}*/
 	 
 		/* Print current layer */
+		oled_set_cursor(0,2);
 		oled_write("LAYER", false);
 	 
-		oled_set_cursor(0,6);
-	 
+		oled_set_cursor(0,3);
 		switch (get_highest_layer(layer_state)) {
 			case 0:
 				oled_write("Base ", false);
 				break;
 			case 1:
-				oled_write("Game", false);
+				oled_write("Game ", false);
 				break;
 			case 3:
 				oled_write("Raise", false);
@@ -271,10 +271,16 @@
 				oled_write("Lower", false);
 				break;
 		}
-	 
-		/* caps lock */
+		
+		/* lock status */
+		oled_set_cursor(0,6);
+		oled_write("LOCK", false);
+		oled_set_cursor(0,7);
+		oled_write("Caps", led_usb_state.caps_lock);
 		oled_set_cursor(0,8);
-		oled_write("Doge", led_usb_state.caps_lock);
+		oled_write("Num", !(led_usb_state.num_lock));
+		oled_set_cursor(0,9);
+		oled_write("Scrl", led_usb_state.scroll_lock);
 	 
 		/* KEYBOARD PET RENDER START */
 		render_luna(0,13);
@@ -287,7 +293,7 @@
 	 
 	void oled_task_user(void) {
 		/* KEYBOARD PET VARIABLES START */
-		current_wpm = get_current_wpm();
+		current_wpm_read = get_current_wpm();
 		led_usb_state = host_keyboard_led_state();
 	 
 		/* KEYBOARD PET VARIABLES END */
