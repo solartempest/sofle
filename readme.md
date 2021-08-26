@@ -10,7 +10,7 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 
 * Keyboard Maintainer: [Solartempest]
 * Hardware Supported: SofleKeyboard V2.1 RGB PCB, ProMicro / Elite-C
-* Hardware Availability: [PCB & Case Data](https://keyhive.xyz/shop/sofle)
+* Hardware Availability: [Keyhive](https://keyhive.xyz/shop/sofle)
 
 # Custom Features:
 
@@ -25,7 +25,8 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 -   Custom macro key in VIA for Super Alt Tab, which is fully compatible with rotary encoders.
 -   Custom macro key in VIA for moving windows to other monitors in Windows, which is fully compatible with rotary encoders.
 -   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift).
--   Includes stock OLED code as well as Luna code (refer to rules.mk and keymap.c).
+-   Includes stock OLED code.
+-	Includes working Luna keyboard pet (refer to rules.mk and keymap.c).
 -   OLED on master half shows selected mode and caps lock state and is rotated.
 
 
