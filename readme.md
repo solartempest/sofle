@@ -1,6 +1,6 @@
 # Sofle Keyboard
 
-![SofleKeyboard version 2.1 RGB Keyhive](https://i.imgur.com/G5HNa8W.jpg)
+![SofleKeyboard version 2.1 RGB Keyhive](https://i.imgur.com/yJMNTMo.jpg)
 
 Sofle is 6×4+5 keys column-staggered split keyboard. Based on Lily58, Corne and Helix keyboards.
 
@@ -14,21 +14,37 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 
 # Custom Features:
 
--   Remappable left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
--   Adds key combo functionality.
--   RGB underglow support and remapped to physical locations (nicer gradient and effects).
--   Adds custom layer lighting with custom gradients for each.
--   Adds white caps lock, scroll lock, and num lock key indicators on the top row/underglow.
+-   Includes Snakey keyboard pet! Slithers according to WPM, bites, and sticks its tongue out at you!
+-	OLED displays current layer, lock key status, WPM, and customizable name.
+-	OLED shuts off on idle and when computer is sleeping.
+-	Includes working Luna keyboard pet (refer to rules.mk and keymap.c).
+-   Includes stock OLED code as well.
+
+-   Adds custom layer lighting with custom gradients for each layer.
+-   RGB underglow support and remapped to physical locations (nicer gradients and effects).
+-   Adds white caps lock, scroll lock, and num lock key indicators using the top row/underglow LEDs.
+
+-   Fully emappable left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
+-   Allows for  live remapping of per-layer rotary encoder functions in VIA.
 -   VIA support included by default.
 -   This fixes the Keyhive left bottom row offset issue in VIA. You will need to import sofle.json in VIA.
--   Allows for remapping of per-layer rotary encoder functions in VIA.
 -   Custom macro key in VIA for Super Alt Tab, which is fully compatible with rotary encoders.
 -   Custom macro key in VIA for moving windows to other monitors in Windows, which is fully compatible with rotary encoders.
--   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift).
--   Includes stock OLED code.
--	Includes working Luna keyboard pet (refer to rules.mk and keymap.c).
--   OLED on master half shows selected mode and caps lock state and is rotated.
 
+-   Push left-shift + backspace to delete whole words. Right-shift + backspace to delete whole words in the opposite direction.
+-   Double tap layers to stay on a layer instead of momentary push.
+-   Adds key combo functionality.
+-   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift).
+
+
+## Compiling
+
+Flash using the correct command below (or use QMK Toolbox like me):
+
+```sh
+# for Elite C with Left Side Master builds
+qmk compile -kb solartempest/sofle -km via
+```
 
 ## Flashing
 
@@ -36,12 +52,12 @@ Flash using the correct command below (or use QMK Toolbox like me):
 
 ```sh
 # for pro micro-based builds
-qmk flash -kb sofle/rev2 -km keyhive_via -bl avrdude-split-left
-qmk flash -kb sofle/rev2 -km keyhive_via -bl avrdude-split-right
+qmk flash -kb solartempest/sofle -km via -bl avrdude-split-left
+qmk flash -kb solartempest/sofle -km via -bl avrdude-split-right
 
 # for Elite C or dfu bootloader builds
-qmk flash -kb sofle/rev2 -km keyhive_via -bl dfu-split-left
-qmk flash -kb sofle/rev2 -km keyhive_via -bl dfu-split-right
+qmk flash -kb solartempest/sofle -km via -bl dfu-split-left
+qmk flash -kb solartempest/sofle -km via -bl dfu-split-right
 ```
 
 These commands can be mixed if, for example, you have an Elite C on the left and a pro micro on the right.
