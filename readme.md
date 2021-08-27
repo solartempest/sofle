@@ -14,16 +14,19 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 
 # Custom Features:
 
+### OLED Features:
 -   Includes Snakey keyboard pet! Slithers according to WPM, bites, and sticks its tongue out at you!
 -	OLED displays current layer, lock key status, WPM, and customizable name.
 -	OLED shuts off on idle and when computer is sleeping.
 -	Includes working Luna keyboard pet (refer to rules.mk and keymap.c).
 -   Includes stock OLED code as well.
 
+### RGB Features:
 -   Adds custom layer lighting with custom gradients for each layer.
 -   RGB underglow support and remapped to physical locations (nicer gradients and effects).
 -   Adds white caps lock, scroll lock, and num lock key indicators using the top row/underglow LEDs.
 
+### Rotary Encoder and VIA Features:
 -   Fully emappable left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
 -   Allows for  live remapping of per-layer rotary encoder functions in VIA.
 -   VIA support included by default.
@@ -31,15 +34,16 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 -   Custom macro key in VIA for Super Alt Tab, which is fully compatible with rotary encoders.
 -   Custom macro key in VIA for moving windows to other monitors in Windows, which is fully compatible with rotary encoders.
 
+### Tap and Other Features:
 -   Push left-shift + backspace to delete whole words. Right-shift + backspace to delete whole words in the opposite direction.
 -   Double tap layers to stay on a layer instead of momentary push.
 -   Adds key combo functionality.
 -   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift).
 
 
-## Compiling
+# Compiling
 
-Flash using the correct command below (or use QMK Toolbox like me):
+Compile with the command below:
 
 ```sh
 # for Elite C with Left Side Master builds
