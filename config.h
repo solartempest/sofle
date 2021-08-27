@@ -53,6 +53,8 @@
 #define ENCODER_RESOLUTIONS { 4, 2 } //Left encoder seems to have double-output issue but right does not.
 
 #define TAP_CODE_DELAY 10
+#define TAPPING_TOGGLE 2 //Tap TT twice to toggle layer
+#define TAPPING_TERM 160 //Tapping duration in ms
 
 // Communication between sides
 #define SOFT_SERIAL_PIN D2
@@ -64,8 +66,8 @@
 
 // OLED settings
 #ifdef OLED_DRIVER_ENABLE
-	#define OLED_TIMEOUT 120000
-	#define OLED_BRIGHTNESS 120
+	#define OLED_TIMEOUT 120000 //2 minutes in ms.
+	#define OLED_BRIGHTNESS 110 // Default 100.
 #endif
 
 // Combo settings
