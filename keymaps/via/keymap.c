@@ -21,11 +21,8 @@
 #include "encoder.c"
 #ifdef OLED_DRIVER_ENABLE
 	//#include "oled.c" //Stock OLED code
-	//#define WPM_ESTIMATED_WORD_SIZE 5
-	//#define WPM_SAMPLE_SECONDS 5
-	//#include "wpm_dev.c" //Use develop branch WPM counter, which is smaller and more precise than the standard one: <https://github.com/qmk/qmk_firmware/pull/13902> . Not required and may be implemented later.
-	#include "luna.c" //OLED code for Luna. Note that this is quite large and disabling other features may be necessary.
-	//#include "snakey.c" //OLED code for Snakey. Note that this is quite large and disabling other features may be necessary.
+	//#include "luna.c" //OLED code for Luna. Note that this is quite large and disabling other features may be necessary.
+	#include "snakey.c" //OLED code for Snakey. Note that this is quite large and disabling other features may be necessary.
 #endif
 
 #ifdef RGBLIGHT_ENABLE
