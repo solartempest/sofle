@@ -16,9 +16,10 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 
 ### OLED Features:
 -   Includes Snakey keyboard pet! Slithers according to WPM, bites, and sticks its tongue out at you!
--	OLED displays current layer, lock key status, WPM, and customizable name.
+-	OLED displays current layer, lock key status, WPM, custom logo, and custom name.
 -	OLED shuts off on idle and when computer is sleeping.
--	Includes working Luna keyboard pet (refer to rules.mk and keymap.c).
+-	Includes working Luna keyboard pet.
+-	Includes working Bongocat (disable RGB for sufficient space).
 -   Includes stock OLED code as well.
 
 ### RGB Features:
