@@ -59,15 +59,20 @@
 // Communication between sides
 #define SOFT_SERIAL_PIN D2
 
-// Must be disabled for LTO
+// Disabled for LTO
 #define NO_ACTION_MACRO
 #define NO_ACTION_FUNCTION
+
+// Disabled to save space
 #define NO_ACTION_ONESHOT //Save 244 bytes
+#define NO_RESET //Save 40 bytes
 
 // OLED settings
-#ifdef OLED_DRIVER_ENABLE
-	#define OLED_TIMEOUT 120000 //2 minutes in ms.
-	#define OLED_BRIGHTNESS 110 // Default 100.
+#ifdef OLED_ENABLE
+	#define OLED_TIMEOUT 80000 //120000 = 2 minutes in ms.
+	#define OLED_BRIGHTNESS 90 // Default 100.
+	#define SPLIT_WPM_ENABLE //Enable WPM across split keyboards (+268).
+	#define SPLIT_OLED_ENABLE //Synx on/off OLED state between halves (+100).
 #endif
 
 // Combo settings
@@ -81,7 +86,7 @@
 #define RGBLED_NUM 74
 #define RGBLED_SPLIT {37,37}
 //#define RGBLIGHT_ANIMATIONS // Very memory intensive
-#define RGBLIGHT_EFFECT_STATIC_GRADIENT
+#define RGBLIGHT_EFFECT_STATIC_GRADIENT //Firmware size (+262)
 #define RGBLIGHT_LIMIT_VAL 160 //Power draw may exceed 0.6A at max brightness with white colour.
 #define RGBLIGHT_LAYERS
 #define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
