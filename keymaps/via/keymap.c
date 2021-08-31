@@ -19,10 +19,12 @@
 #include QMK_KEYBOARD_H
 #include <stdio.h> //This is required for OLED sprintf.
 #include "encoder.c"
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 	//#include "oled.c" //Stock OLED code
-	//#include "luna.c" //OLED code for Luna. Note that this is quite large and disabling other features may be necessary.
-	#include "snakey.c" //OLED code for Snakey. Note that this is quite large and disabling other features may be necessary.
+	//Note that the keyboard animations below take a large amount of space!
+		//#include "bongocat.c" //OLED code for Bongocat, original code by foureight84. Disable RGBLIGHT to make enough space.
+		//#include "luna.c" //OLED code for Luna, original code by Hellsingcoder and adapted by Jackasaur.
+		#include "snakey.c" //OLED code for Snakey, customized from Luna.
 #endif
 
 #ifdef RGBLIGHT_ENABLE
@@ -76,7 +78,7 @@ static uint16_t held_shift = 0;
 #endif
 
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {  //Can skip these layouts to save space when using only VIA.
 /* QWERTY
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |  `   |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |  `   |
@@ -91,13 +93,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            |      |      |      |      |/       /         \      \ |      |      |      |      |
  *            `----------------------------------'           '------''---------------------------'
  */
-[0] = LAYOUT(
+/*[0] = LAYOUT(
   KC_GRV,	KC_1,	KC_2,	KC_3,	KC_4,	KC_5,						KC_6,	KC_7,	KC_8,	KC_9,	KC_0,		KC_MINS,
   KC_ESC,	KC_Q,	KC_W,	KC_E,	KC_R,	KC_T,	KC__VOLUP,	KC_PGUP,KC_Y,	KC_U,	KC_I,	KC_O,	KC_P,		SBS,
   KC_TAB,	KC_A,	KC_S,	KC_D,	KC_F,	KC_G,	KC_MUTE,	KC_NO,	KC_H,	KC_J,	KC_K,	KC_L,	KC_SCLN,	KC_QUOT,
   KC_LSFT,	KC_Z,	KC_X,	KC_C,	KC_V,	KC_B,	KC__VOLDOWN,KC_PGDN,KC_N,	KC_M,	KC_COMM,KC_DOT,	KC_SLSH,	KC_RSFT,
 					KC_LGUI,KC_LALT,KC_LCTRL,MO(2),	KC_ENT,		KC_SPC,	MO(3),	KC_RCTRL,KC_RALT,KC_RGUI
-)/* //Skip these layouts to save space when using VIA
+)
 ,
 [1] = LAYOUT(
   KC_PSCR,	KC_5,		KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,							KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_F11,		KC_F4,
@@ -137,6 +139,12 @@ void matrix_scan_user(void) {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+	#ifdef KEYBOARD_PET
+		if (record->event.pressed) { //Drashna's OLED timeout off code for animations
+			oled_timer = timer_read32();
+		}
+	#endif
+	
 	switch (keycode) { //For keycode overrides
 		case ATABF:	//Alt tab forwards
 		  if (record->event.pressed) {
@@ -190,7 +198,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			rshift_held = record->event.pressed;
 			held_shift = keycode;
 			// KEYBOARD PET STATUS
-			#ifdef OLED_DRIVER_ENABLE
+			#ifdef KEYBOARD_PET
 				if (record->event.pressed) {
 					isBarking = true;
 				} else {
@@ -202,7 +210,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			lshift_held = record->event.pressed;
 			held_shift = keycode;
 			// KEYBOARD PET STATUS
-			#ifdef OLED_DRIVER_ENABLE
+			#ifdef KEYBOARD_PET
 				if (record->event.pressed) {
 					isBarking = true;
 				} else {
@@ -234,7 +242,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			return false;
 			
 		// KEYBOARD PET STATUS
-		#ifdef OLED_DRIVER_ENABLE
+		#ifdef KEYBOARD_PET
 			case KC_LCTL:
 			case KC_RCTL:
 				if (record->event.pressed) {
@@ -257,68 +265,70 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 	void suspend_power_down_user(void) { //turn off OLEDs when computer is sleeping
 		oled_off();
 	}
 #endif
 
 
-// RGB Layer Light Settings - Note that this will fix the key switch LED colour and brightness
-const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 95,255,90}); //Spring green		(Change range for multiple keys with same colour)
-const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 252,255,125}); //Red-orange		(Change range for multiple keys with same colour)
-const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 128,255,100}); //Cyan			(Change range for multiple keys with same colour)
-const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 215,255,120}); //Magenta		(Change range for multiple keys with same colour)
-const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS({4, 3, 43,100,170}); //White-left caps lock indication (No dedicated LED)
-const rgblight_segment_t PROGMEM my_numlock_layer[] = RGBLIGHT_LAYER_SEGMENTS({28, 3, 43,100,170}); //White-right num lock indication (No dedicated LED). Since this indicator is inverted, it must be on the master side of the keyboard to shut off properly when the computer is sleeping.
-const rgblight_segment_t PROGMEM my_scrollock_layer[] = RGBLIGHT_LAYER_SEGMENTS({55, 3, 43,100,170}); //White-middle-right scroll lock indication (No dedicated LED)
-const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST( //Lighting layers
-    my_layer0_layer,
-    my_layer1_layer,
-    my_layer2_layer,
-    my_layer3_layer,
-	my_capslock_layer,    //Highest status indicators override other layers
-	my_numlock_layer,
-	my_scrollock_layer
-);
+#ifdef RGBLIGHT_ENABLE
+	// RGB Layer Light Settings - Note that this will fix the key switch LED colour and brightness
+	const rgblight_segment_t PROGMEM my_layer0_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 95,255,90}); //Spring green		(Change range for multiple keys with same colour)
+	const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 252,255,125}); //Red-orange		(Change range for multiple keys with same colour)
+	const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 128,255,100}); //Cyan			(Change range for multiple keys with same colour)
+	const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS({0, 0, 215,255,120}); //Magenta		(Change range for multiple keys with same colour)
+	const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS({4, 3, 43,100,170}); //White-left caps lock indication (No dedicated LED)
+	const rgblight_segment_t PROGMEM my_numlock_layer[] = RGBLIGHT_LAYER_SEGMENTS({28, 3, 43,100,170}); //White-right num lock indication (No dedicated LED). Since this indicator is inverted, it must be on the master side of the keyboard to shut off properly when the computer is sleeping.
+	const rgblight_segment_t PROGMEM my_scrollock_layer[] = RGBLIGHT_LAYER_SEGMENTS({55, 3, 43,100,170}); //White-middle-right scroll lock indication (No dedicated LED)
+	const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST( //Lighting layers
+		my_layer0_layer,
+		my_layer1_layer,
+		my_layer2_layer,
+		my_layer3_layer,
+		my_capslock_layer,    //Highest status indicators override other layers
+		my_numlock_layer,
+		my_scrollock_layer
+	);
 
 
-void keyboard_post_init_user(void)
-{
-    rgblight_layers = my_rgb_layers;// Enable the LED layers
-	rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT+8); //Set to static gradient 9
-	layer_move(0); //start on layer 0 to get the lighting activated
-}
+	void keyboard_post_init_user(void)
+	{
+		rgblight_layers = my_rgb_layers;// Enable the LED layers
+		rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT+8); //Set to static gradient 9
+		layer_move(0); //start on layer 0 to get the lighting activated
+	}
 
 
-layer_state_t layer_state_set_user(layer_state_t state)
-{
-    rgblight_set_layer_state(0, layer_state_cmp(state, 0));    // Multiple layers will light up if both kb layers are active
-    rgblight_set_layer_state(1, layer_state_cmp(state, 1));
-    rgblight_set_layer_state(2, layer_state_cmp(state, 2));
-    rgblight_set_layer_state(3, layer_state_cmp(state, 3));
-	
-	switch(biton32(state)){ // Change all other LEDs based on layer state as well
-		case 0:
-			rgblight_sethsv_noeeprom(50,255,80);
-			break;
-		case 1:
-			rgblight_sethsv_noeeprom(252,255,80);
-			break;
-		case 2:
-			rgblight_sethsv_noeeprom(118,255,80);
-			break;
-		case 3:
-			rgblight_sethsv_noeeprom(218,255,80);
-	  }
-    return state;
-}
+	layer_state_t layer_state_set_user(layer_state_t state)
+	{
+		rgblight_set_layer_state(0, layer_state_cmp(state, 0));    // Multiple layers will light up if both kb layers are active
+		rgblight_set_layer_state(1, layer_state_cmp(state, 1));
+		rgblight_set_layer_state(2, layer_state_cmp(state, 2));
+		rgblight_set_layer_state(3, layer_state_cmp(state, 3));
+		
+		switch(biton32(state)){ // Change all other LEDs based on layer state as well
+			case 0:
+				rgblight_sethsv_noeeprom(50,255,80);
+				break;
+			case 1:
+				rgblight_sethsv_noeeprom(252,255,80);
+				break;
+			case 2:
+				rgblight_sethsv_noeeprom(118,255,80);
+				break;
+			case 3:
+				rgblight_sethsv_noeeprom(218,255,80);
+		  }
+		return state;
+	}
 
 
-bool led_update_user(led_t led_state)
-{
-	rgblight_set_layer_state(4, led_state.caps_lock); //Activate capslock lighting layer
-	rgblight_set_layer_state(5, !(led_state.num_lock)); //Invert the indication so numlock does not always appear "on".
-	rgblight_set_layer_state(6, led_state.scroll_lock); //Activate scrollock lighting layer
-    return true;
-}
+	bool led_update_user(led_t led_state)
+	{
+		rgblight_set_layer_state(4, led_state.caps_lock); //Activate capslock lighting layer
+		rgblight_set_layer_state(5, !(led_state.num_lock)); //Invert the indication so numlock does not always appear "on".
+		rgblight_set_layer_state(6, led_state.scroll_lock); //Activate scrollock lighting layer
+		return true;
+	}
+#endif
