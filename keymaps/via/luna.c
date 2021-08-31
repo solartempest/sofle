@@ -18,8 +18,9 @@
  */
  
 //SSD1306 OLED update loop
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 	/* KEYBOARD PET START */
+	#define KEYBOARD_PET
 	 
 	/* settings */
 	#define MIN_WALK_SPEED 10
@@ -38,6 +39,7 @@
 	 
 	/* status variables */
 	int current_wpm_read = 0;
+	uint32_t oled_timer = 0; //For Keyboard pet OLED timeout with animations, code by Drashna.
 	led_t led_usb_state;
 	 
 	bool isSneaking = false;
@@ -211,16 +213,7 @@
 		if(timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
 			anim_timer = timer_read32();
 			animate_luna();
-		}
-	 
-		/* this fixes the screen on and off bug */
-		if (current_wpm_read > 0) {
-			oled_on();
-			anim_sleep = timer_read32();
-		} else if(timer_elapsed32(anim_sleep) > OLED_TIMEOUT) {
-			oled_off();
-		}
-	 
+		}	 
 	}
 	 
 	/* KEYBOARD PET END */
@@ -295,8 +288,18 @@
 		/* KEYBOARD PET VARIABLES START */
 		current_wpm_read = get_current_wpm();
 		led_usb_state = host_keyboard_led_state();
-	 
 		/* KEYBOARD PET VARIABLES END */
+		
+		
+		if (is_keyboard_master()) { //Drashna's OLED timeout off code for animations
+			if (timer_elapsed32(oled_timer) > 30000) {
+				oled_off();
+				return;
+			} else {
+				oled_on();
+			}
+		}
+		
 		if (is_keyboard_master()) {
 			print_status_narrow();
 		} else {
@@ -304,4 +307,3 @@
 		}
 	}
 #endif
- 
