@@ -41,6 +41,12 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 -   Adds key combo functionality.
 -   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift).
 
+## Using with VIA
+
+-   After flashing, in VIA make sure to Import Keymap, which is sofle.json. This will alow VIA to recognize the updated layout and custom functions.
+-   Go to Save+Load to Load Saved Layout. You can import my own layout solarius_sofle layout.json or just use the Keymap tab to assign your own keys.
+-   It is a good idea to Save Current Layout after you decide on your mapping.
+
 
 # Compiling
 
