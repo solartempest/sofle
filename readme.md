@@ -43,8 +43,8 @@ Build guide and log is available here: [SofleKeyboard build log/guide](https://j
 
 ## Using with VIA
 
--   After flashing, in VIA make sure to Import Keymap, which is sofle.json. This will alow VIA to recognize the updated layout and custom functions.
--   Go to Save+Load to Load Saved Layout. You can import my own layout solarius_sofle layout.json or just use the Keymap tab to assign your own keys.
+-   After flashing, in VIA make sure to Import Keymap, which is "sofle VIA keymap.json". This will alow VIA to recognize the updated layout and custom functions. VIA will not auto-recognize the keyboard with this firmware because of the necessary customization.
+-   Go to Save+Load to Load Saved Layout. You can import my own layout "sofle VIA layout.json" or just use the Keymap tab to assign your own keys. Having another keyboard connected can be handy for doing this step.
 -   It is a good idea to Save Current Layout after you decide on your mapping.
 
 
