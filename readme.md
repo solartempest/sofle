@@ -1,5 +1,8 @@
 # Sofle Keyboard
 
+## *Update: Sofle firmware is now moved!*
+*Find the latest code and files in my main fork:* [qmk_firmware/keyboards/solartempest/sofle](https://github.com/solartempest/qmk_firmware/tree/master/keyboards/solartempest/sofle)
+
 ![SofleKeyboard version 2.1 RGB Keyhive](https://i.imgur.com/WH9OoWu.jpg)
 
 Sofle is 6×4+5 keys column-staggered split keyboard. Based on Lily58, Corne and Helix keyboards.
